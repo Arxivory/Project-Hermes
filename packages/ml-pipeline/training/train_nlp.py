@@ -52,7 +52,7 @@ def train_intent_model():
         num_train_epochs=1,
         weight_decay=0.01,
         evaluation_strategy="epoch",
-        save_strategy="epoch"
+        save_strategy="epoch",
         load_best_model_at_end=True,
         logging_steps=50
     )

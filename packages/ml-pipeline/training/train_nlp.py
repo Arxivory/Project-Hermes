@@ -69,7 +69,7 @@ def train_intent_model():
     print("Running fine-tuning sequence on dataset...")
     trainer.train()
 
-    model_save_path = "../../infrastructure/triton/intent_model/1/model.safetensors"
+    model_save_path = "../../../infrastructure/triton/intent_model/1/model.safetensors"
     os.makedirs(os.path.dirname(model_save_path), exist_ok=True)
     model.save_pretrained(os.path.dirname(model_save_path))
     tokenizer.save_pretrained(os.path.dirname(model_save_path))

@@ -75,5 +75,5 @@ def train_intent_model():
     tokenizer.save_pretrained(os.path.dirname(model_save_path))
     print(f"Model artifact successfully saved to local directory framework: {model_save_path}")
 
-if __name__ == "main":
+if __name__ == "__main__":
     train_intent_model()

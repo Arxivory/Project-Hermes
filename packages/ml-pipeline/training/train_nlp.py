@@ -22,7 +22,7 @@ def train_intent_model():
     tokenizer = AutoTokenizer.from_pretrained(model_ckpt)
 
     def preprocess_function(examples):
-        inputs = tokenizer(examples["utterance"], truncation=True, padding="max_length", max_length=64)
+        inputs = tokenizer(examples["instruction"], truncation=True, padding="max_length", max_length=64)
         inputs["labels"] = [intent_to_id[intent] for intent in examples["intent"]]
         return inputs
     

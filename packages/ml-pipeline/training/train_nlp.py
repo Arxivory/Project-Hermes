@@ -19,7 +19,7 @@ def train_intent_model():
     print(f"Successfully extracted {len(unique_intents)} unique financial intent classes.")
 
     model_ckpt = "distilbert-base-uncased"
-    tokenizer = AutoTokenizer.from_pretained(model_ckpt)
+    tokenizer = AutoTokenizer.from_pretrained(model_ckpt)
 
     def preprocess_function(examples):
         inputs = tokenizer(examples["utterance"], truncation=True, padding="max_length", max_length=64)

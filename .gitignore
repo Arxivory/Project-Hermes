@@ -40,6 +40,8 @@ yarn-error.log*
 # Python
 venv/
 .venv/
+__pycache__/
+.pyc
 
 # Project Hermes Deep Learning Model Binaries
 *.safetensors

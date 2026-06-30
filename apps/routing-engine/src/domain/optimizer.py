@@ -4,7 +4,7 @@ from typing import List, Tuple, Dict
 from .entities import CustomerTicket, AgentProfile
 
 class CognitiveRoutingOptimizer:
-    def __init__(self, weight_fcr: float = 100.0, weight_time: float = 0.1, weight_tier = 5.0):
+    def __init__(self, weight_fcr: float = 100.0, weight_time: float = 0.1, weight_tier: float = 5.0):
         """
         Initializes the operations research routing engine.
         Weights allow operational managers to bias for equality (FCR) vs speed (AHT/SLA)

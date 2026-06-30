@@ -47,3 +47,36 @@ class CognitiveRoutingOptimizer:
 
         score = quality_component - latency_component - queue_component
         return float(score)
+    
+    def optimize_routing_matrix(self, tickets: List[CustomerTicket], agents: List[AgentProfile]) -> List[Tuple[str, str, float]]:
+        """
+        Uses the Hungarian Algorithm (linear sum assignment) via SciPy to solve optimal pairings
+        simultaneously across a matrix batch size of pending tickets and idle agents.
+        """
+
+        if not tickets or not agents:
+            return []
+
+        viable_agents = [a for a in agents if a.current_status in ["IDLE", "AFTER_CALL_WORK"]]
+        if not viable_agents:
+            return []
+        
+        num_tickets = len(tickets)
+        num_agents = len(viable_agents)
+
+        cost_matrix = np.zeros((num_tickets, num_agents))
+
+        for t_idx, ticket in enumerate(tickets):
+            for a_idx, agent in enumerate(viable_agents):
+                cost_matrix[t_idx, a_idx] = self.calculate_match_score(ticket, agent)
+
+        row_ind, col_ind = linear_sum_assignment(-cost_matrix)
+
+        assignments = []
+        for r, c in zip(row_ind, col_ind):
+            ticket_id = tickets[r].ticket_id
+            agent_id = viable_agents[c].agent_id
+            match_score = cost_matrix[r, c]
+            assignments.append((ticket_id, agent_id, match_score))
+
+        return assignments

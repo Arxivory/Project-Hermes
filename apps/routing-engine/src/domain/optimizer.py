@@ -12,3 +12,15 @@ class CognitiveRoutingOptimizer:
         self.w_fcr = weight_fcr
         self.w_time = weight_time
         self.w_tier = weight_tier
+
+    def _get_tier_multiplier(self, tier: str) -> float:
+        """
+        Translates customer SLA classification into an operational penalty scalar.
+        """
+        mapping = {
+            "PLATINUM": 3.0,
+            "VIP": 2.0,
+            "REGULAR": 1.0
+        }
+
+        return mapping.get(tier.upper(), 1.0)

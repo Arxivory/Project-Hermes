@@ -11,3 +11,17 @@ class CustomerTicket(BaseModel):
     raw_utterance: str
     predict_intent: Optional[str] = None
     urgency_score: float = 1.0
+
+class AgentProfile(BaseModel):
+    """
+    Represents an active BPO agent currently tracked on the production floor.
+    """
+    agent_id: str
+    current_status: str
+
+    intent_aht_matrix: Dict[str, float]
+
+    intent_fcr_matrix: Dict[str, float]
+
+    cognitive_stress_index: float
+    current_queue_wait_time_sec: float = 0.0

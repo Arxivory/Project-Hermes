@@ -9,7 +9,7 @@ class CustomerTicket(BaseModel):
     ticket_id: str
     customer_tier: str
     raw_utterance: str
-    predict_intent: Optional[str] = None
+    predicted_intent: Optional[str] = None
     urgency_score: float = 1.0
 
 class AgentProfile(BaseModel):

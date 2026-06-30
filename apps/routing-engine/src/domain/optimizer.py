@@ -31,7 +31,7 @@ class CognitiveRoutingOptimizer:
         Higher Score = More optimal allocation alignment.
         """
 
-        intent = ticket.predict_intent or "default"
+        intent = ticket.predicted_intent or "default"
 
         p_fcr = agent.intent_fcr_matrix.get(intent, 0.70)
         base_aht = agent.intent_aht_matrix.get(intent, 180)

@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.optimize import linear_sum_assignment
-from typing import List, Tuple, Dict
+from typing import List, Tuple
 from .entities import CustomerTicket, AgentProfile
 
 class CognitiveRoutingOptimizer:

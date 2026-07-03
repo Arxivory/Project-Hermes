@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from src.domain.entities import CustomerTicket
 from src.domain.optimizer import CognitiveRoutingOptimizer
 
-app = FastAPI("Project Hermes Core Routing Microservice")
+app = FastAPI(title="Project Hermes Core Routing Microservice")
 optimizer = CognitiveRoutingOptimizer()
 
 class InboundTicketSchema(BaseModel):

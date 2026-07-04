@@ -6,10 +6,11 @@ from feast import (
     FileSource
 )
 from feast.types import Float32, Int64, String
+from feast.value_type import ValueType
 
 agent = Entity(
     name="agent_id",
-    value_type=String,
+    value_type=ValueType.STRING,
     description="Unique operational ID of the BPO Support Agent"
 )
 

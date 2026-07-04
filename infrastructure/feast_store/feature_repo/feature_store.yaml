@@ -1,4 +1,5 @@
 project: project_hermes_features
+entity_key_serialization_version: 2
 registry: data/registry.db
 provider: local
 online_store:

@@ -1,5 +1,5 @@
 {
-  "name": "project-herpes",
+  "name": "project-hermes",
   "private": true,
   "scripts": {
     "build": "turbo run build",

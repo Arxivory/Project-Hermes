@@ -5,7 +5,7 @@ from feast import (
     Field,
     FileSource
 )
-from feast.types import Float32, Int64, String
+from feast.types import Float32
 from feast.value_type import ValueType
 
 agent = Entity(

@@ -2,7 +2,6 @@
 
 import os
 import pandas as pd
-import numpy as np
 from datetime import datetime, timedelta
 
 def build_local_feature_lake():

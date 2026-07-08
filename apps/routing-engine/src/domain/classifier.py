@@ -2,7 +2,7 @@ import os
 import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
-class LocalIntentClassifier:
+class IntentClassifier:
     def __init__(self, model_dir: str = "infrastructure/triton/intent_model/1"):
         print(f"Initializing ML Pipeline. Loading weights from: {model_dir}...")
 

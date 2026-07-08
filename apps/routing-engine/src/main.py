@@ -1,10 +1,23 @@
+import os
 from fastapi import FastAPI, BackgroundTasks
 from pydantic import BaseModel
+from feast import FeatureStore
+
 from src.domain.entities import CustomerTicket
 from src.domain.optimizer import CognitiveRoutingOptimizer
+from src.domain.classifier import IntentClassifier
 
 app = FastAPI(title="Project Hermes Core Routing Microservice")
 optimizer = CognitiveRoutingOptimizer()
+classifier = IntentClassifier()
+
+FEAST_REPO_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../infrastructure/feast_store/feature_repo"))
+try:
+    feature_store = FeatureStore(repo_path=FEAST_REPO_PATH)
+    print("Secure native connection mapped to SQLite Feast Online Store.")
+except Exception as e:
+    print(f"Failed to connect to Feast Registry Path at {FEAST_REPO_PATH}: {e}")
+    feature_store = None
 
 class InboundTicketSchema(BaseModel):
     ticket_id: str

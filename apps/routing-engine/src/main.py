@@ -79,6 +79,16 @@ def process_and_route_ticket(ticket: CustomerTicket):
     for t_id, a_id, score in routing_decisions:
         print(f"TICKET [{t_id}] routed to AGENT [{a_id}] with optimal score: {score:.2}")
 
+@app.post("/api/v1/tickets")
+async def receive_ticket_http(payload: InboundTicketSchema, background_tasks: BackgroundTasks):
+    domain_ticket = CustomerTicket(
+        ticket_id=payload.ticket_id,
+        customer_tier=payload.customer_tier,
+        raw_utterance=payload.raw_utterance
+    )
+    background_tasks.add_task(process_and_route_ticket, domain_ticket)
+    return {"status": "processing", "ticket_id": payload.ticket_id}
+
 @app.get("/health")
 def health_check():
     return {"status": "operational", "mode": "native-local"}

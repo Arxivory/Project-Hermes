@@ -27,7 +27,8 @@ agent_performance_view = FeatureView(
     schema=[
         Field(name="historical_mean_aht_fraud", dtype=Float32),
         Field(name="historical_mean_aht_billing", dtype=Float32),
-        Field(name="historical_fcr_rate", dtype=Float32),
+        Field(name="historical_fcr_fraud", dtype=Float32),
+        Field(name="historical_fcr_billing", dtype=Float32),
         Field(name="current_cognitive_stress_index", dtype=Float32),
     ],
     online=True,

@@ -53,7 +53,8 @@ def process_and_route_ticket(ticket: CustomerTicket):
             ).to_dict()
 
             for i, aid in enumerate(monitored_agents):
-                fcr = response["historical_fcr_rate"][i] or 0.80
+                fcr_fraud = response["historical_fcr_fraud"][i] or 0.80
+                fcr_billing = response["historical_fcr_billing"][i] or 0.85
                 stress = response["current_cognitive_stress_index"][i] or 1.0
                 aht_fraud = response["historical_mean_aht_fraud"][i] or 120.0
                 aht_billing = response["historical_mean_aht_billing"][i] or 90.0
@@ -62,7 +63,7 @@ def process_and_route_ticket(ticket: CustomerTicket):
                     agent_id = aid,
                     current_status="IDLE",
                     intent_aht_matrix={"fraud_alert": aht_fraud, "billing_dispute": aht_billing},
-                    intent_fcr_matrix={"fraud_alert": fcr, "billing_dispute": fcr},
+                    intent_fcr_matrix={"fraud_alert": fcr_fraud, "billing_dispute": fcr_billing},
                     cognitive_stress_index=stress
                 )
                 enriched_profiles.append(profile)

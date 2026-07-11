@@ -16,7 +16,8 @@ def build_local_feature_lake():
         "created_timestamp": [datetime.utcnow() for _ in agents_pool],
         "historical_mean_aht_fraud": [90.0, 300.0],
         "historical_mean_aht_billing": [60.0, 120.0],
-        "historical_fcr_rate": [0.98, 0.50],
+        "historical_fcr_fraud": [0.95, 0.45],
+        "historical_fcr_billing": [0.99, 0.55],
         "current_cognitive_stress_index": [1.0, 2.2]
     }
 

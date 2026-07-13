@@ -43,7 +43,8 @@ def process_and_route_ticket(ticket: CustomerTicket):
             features_to_fetch = [
                 "agent_performance_metrics:historical_mean_aht_fraud",
                 "agent_performance_metrics:historical_mean_aht_billing",
-                "agent_performance_metrics:historical_fcr_rate",
+                "agent_performance_metrics:historical_fcr_fraud",
+                "agent_performance_metrics:historical_fcr_billing",
                 "agent_performance_metrics:current_cognitive_stress_index"
             ]
 

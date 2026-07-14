@@ -1,4 +1,6 @@
 import os
+import time
+import mlflow
 from fastapi import FastAPI, BackgroundTasks
 from pydantic import BaseModel
 from feast import FeatureStore
@@ -8,6 +10,10 @@ from src.domain.optimizer import CognitiveRoutingOptimizer
 from src.domain.classifier import IntentClassifier
 
 app = FastAPI(title="Project Hermes Core Routing Microservice")
+
+mlflow.set_tracking_uri("http://localhost:5000")
+mlflow.set_experiment("Hermes_Live_Routing_Telemetry")
+
 optimizer = CognitiveRoutingOptimizer()
 classifier = IntentClassifier()
 

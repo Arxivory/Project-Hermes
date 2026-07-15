@@ -93,6 +93,8 @@ def process_and_route_ticket(ticket: CustomerTicket):
         print(f"Final Routing Target Resolution Matrix:")
 
         for t_id, a_id, score in routing_decisions:
+            mlflow.log_param("assigned_agent", a_id)
+            mlflow.log_param("routing_score", score)
             print(f"TICKET [{t_id}] routed to AGENT [{a_id}] with optimal score: {score:.2}")
 
 @app.post("/api/v1/tickets")

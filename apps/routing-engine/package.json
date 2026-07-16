@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload",
+    "mlflow": "mlflow server --backend-store-uri sqlite:///mlflow.db --default-artifact-root ./infrastructure/mlflow_artifacts --host 127.0.0.1 --port 5000",
     "build": "echo 'No build step required for Python backend'"
   }
 }

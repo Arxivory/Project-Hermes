@@ -78,3 +78,15 @@ def evaluate_model_performance():
         print("ALERT: Model accuracy dropped below threshold! Flagging for retraining.")
     else:
         print("Model health is stable.")
+
+@flow(name="Hermes Core Operations Pipeline")
+def hermes_orchestration_flow():
+    """
+    The master DAG coordinating our feature backfills and evaluation loops.
+    """
+    metrics = ingest_agent_metrics()
+    update_feast_features(metrics)
+    evaluate_model_performance()
+
+if __name__ == "__main__":
+    hermes_orchestration_flow()

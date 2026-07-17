@@ -1,5 +1,7 @@
 import time
 import random
+import pandas as pd
+from datetime import datetime, timezone
 from prefect import flow, task
 from feast import FeatureStore
 import os
@@ -27,3 +29,40 @@ def ingest_agent_metrics():
     }
     return telemetry_updates
 
+@task(name="Update Feast Feature Store")
+def update_feast_features(telemetry_updates: dict):
+    """
+    Pushes the fresh ingested features into the Offline Parquet Store,
+    and then programmatically materializes them to Feast's Online store.
+    """
+
+    if not os.path.exists(PARQUET_PATH):
+        raise FileNotFoundError(
+            f"Parquet Offline Database not found at {PARQUET_PATH}. "
+            "Please run your seed.py script first to generate the data."
+        )
+    
+    df = pd.read_parquet(PARQUET_PATH)
+
+    now_utc = datetime.now(timezone.utc)
+    for agent_id, updates in telemetry_updates.items():
+        mask = df["agent_id"] == agent_id
+        if mask.any():
+            print(f"Updating metrics in offline parquet store for agent: {agent_id}")
+            df.loc[mask, "current_cognitive_stress_index"] = updates["current_cognitive_stress_index"]
+            df.loc[mask, "event_timestamp"] = now_utc
+            df.loc[mask, "created_timestamp"] = now_utc
+
+    df.to_parquet(PARQUET_PATH)
+    print("Offline parquet feature lake successfully updated.")
+
+    print(f"Initializing Feast Feature Store from: {FEAST_REPO_PATH}")
+    store = FeatureStore(repo_path=FEAST_REPO_PATH)
+
+    print("Materializing updated offline metrics to the online store...")
+
+    start_date = datetime.now(timezone.utc) - pd.Timedelta(days=1)
+    end_date = datetime.now(timezone.utc) + pd.Timedelta(minutes=5)
+
+    store.materialize(start_date=start_date, end_date=end_date)
+    print("Feast online store materialized and fully synced!")

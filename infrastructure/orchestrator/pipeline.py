@@ -66,3 +66,15 @@ def update_feast_features(telemetry_updates: dict):
 
     store.materialize(start_date=start_date, end_date=end_date)
     print("Feast online store materialized and fully synced!")
+
+@task(name="Continous Model Drift Evaluation")
+def evaluate_model_performance():
+    """
+    Simulates matching predictions against ground-truth labels to detect accuracy decay.
+    """
+    simulated_accuracy = random.uniform(0.91, 0.95)
+    print(f"Evaluating Model Drift... Current Accuracy: {simulated_accuracy:.3f}")
+    if simulated_accuracy < 0.92:
+        print("ALERT: Model accuracy dropped below threshold! Flagging for retraining.")
+    else:
+        print("Model health is stable.")

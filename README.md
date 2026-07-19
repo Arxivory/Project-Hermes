@@ -1,159 +1,72 @@
-# Turborepo starter
+﻿# Project Hermes
 
-This Turborepo starter is maintained by the Turborepo core team.
+Project Hermes is an end-to-end machine learning and operations research prototype for modernizing customer support routing in the BPO sector. The system explores a smarter alternative to traditional automatic call distribution by combining intent understanding, dynamic agent profiling, and queue-aware routing decisions.
 
-## Using this example
+## Overview
 
-Run the following command:
+Project Hermes is designed to improve customer experience and operational efficiency by routing each interaction to the most suitable agent based on:
 
-```sh
-npx create-turbo@latest
-```
+- the customer's inferred intent and urgency
+- the agent's current performance profile
+- workload and stress-aware decision factors
+- queue considerations that balance speed and service quality
 
-## What's inside?
+The project sits at the intersection of machine learning, MLOps, and intelligent operations design.
 
-This Turborepo includes the following packages/apps:
+## What the system aims to solve
 
-### Apps and Packages
+Traditional routing systems often rely on rigid availability-based logic, which can lead to:
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+- repeated transfers or poor first-contact resolution
+- mismatches between customer issues and agent expertise
+- inefficient handling of high-priority or sensitive cases
+- limited adaptability to changing agent performance over time
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+Project Hermes aims to address these issues through a more context-aware routing strategy.
 
-### Utilities
+## Core ideas
 
-This Turborepo has some additional tools already setup for you:
+The current system explores three major components:
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+1. Intent inference
+   - A natural language model classifies incoming customer utterances into issue categories and severity-related signals.
 
-### Build
+2. Dynamic agent profiling
+   - Agent performance is represented through historical and live metrics that reflect how well a person may handle different issue types.
 
-To build all apps and packages, run the following command:
+3. Smart routing decisions
+   - The routing layer evaluates candidate agents and selects the most suitable assignment based on both expected resolution quality and operational constraints.
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
+## Repository structure
 
-```sh
-cd my-turborepo
-turbo build
-```
+The repository is organized around a modular architecture:
 
-Without global `turbo`, use your package manager:
+- apps/mock-bpo-simulator: simulation of synthetic BPO traffic and customer interactions
+- apps/routing-engine: core routing service, classifier logic, and optimization components
+- infrastructure: feature store, model assets, orchestration helpers, and supporting services
+- packages: shared workspace tooling and configuration
 
-```sh
-cd my-turborepo
-npx turbo build
-pnpm dlx turbo build
-pnpm exec turbo build
-```
+## Current development status
 
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+Project Hermes is currently under active development. The codebase already contains the foundations for:
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+- an NLP-based intent classifier
+- a routing microservice
+- simulated traffic generation
+- feature-store-backed agent profiling
+- supporting MLOps-related artifacts and model resources
 
-```sh
-turbo build --filter=docs
-```
+This project is still evolving as a research and engineering prototype, so the implementation is intentionally being shaped and refined over time.
 
-Without global `turbo`:
+## Project direction
 
-```sh
-npx turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-```
+Future work will focus on strengthening the system's realism and operational readiness, including:
 
-### Develop
+- more robust data pipelines
+- richer agent performance modeling
+- improved routing quality under real-world conditions
+- broader MLOps integration and observability
 
-To develop all apps and packages, run the following command:
+## Note
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo dev
-```
-
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo dev
-pnpm exec turbo dev
-pnpm exec turbo dev
-```
-
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo dev --filter=web
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo login
-```
-
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo login
-pnpm exec turbo login
-pnpm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo link
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo link
-pnpm exec turbo link
-pnpm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+This README is intentionally high-level while the system is still in development. Detailed installation, environment setup, and deployment instructions will be added as the platform matures.

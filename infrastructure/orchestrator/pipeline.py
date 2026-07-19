@@ -1,4 +1,5 @@
 import random
+import torch
 import pandas as pd
 from datetime import datetime, timezone
 from prefect import flow, task

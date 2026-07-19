@@ -3,10 +3,13 @@ import pandas as pd
 from datetime import datetime, timezone
 from prefect import flow, task
 from feast import FeatureStore
+from datasets import load_dataset
+from transformers import pipeline
 import os
 
 PARQUET_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "../feast_store/feature_repo/data/agent_historical_telemetry.parquet"))
 FEAST_REPO_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "../feast_store/feature_repo"))
+MODEL_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../triton/intent_model/1"))
 
 @task(name="Ingest Live Agent Metrics")
 def ingest_agent_metrics():
@@ -69,14 +72,51 @@ def update_feast_features(telemetry_updates: dict):
 @task(name="Continous Model Drift Evaluation")
 def evaluate_model_performance():
     """
-    Simulates matching predictions against ground-truth labels to detect accuracy decay.
+    Evaluates our classifier using a live slice from the Bitext dataset via load_dataset
+    to compute absolute accuracy and identify performance decay.
     """
-    simulated_accuracy = random.uniform(0.91, 0.95)
-    print(f"Evaluating Model Drift... Current Accuracy: {simulated_accuracy:.3f}")
-    if simulated_accuracy < 0.92:
-        print("ALERT: Model accuracy dropped below threshold! Flagging for retraining.")
+    print("Initializing dataset evaluation task...")
+
+    print("Fetching Bitext Financial Dataset via Hugging Face datasets...")
+    full_dataset = load_dataset(
+        "bitext/Bitext-customer-support-llm-chatbot-training-dataset",
+        split="train"
+    )
+
+    SAMPLE_SIZE = 250
+    eval_slice = full_dataset.shuffle(seed=42).select(range(SAMPLE_SIZE))
+    print(f"Sampled {SAMPLE_SIZE} production instances for performance checking.")
+
+    print(f"Loading registered Hugging Face model from: {MODEL_DIR}")
+    classifier = pipeline(
+        "text-classification",
+        model=MODEL_DIR,
+        tokenizer=MODEL_DIR,
+        device=0 if torch.cuda.is_available() else -1
+    )
+
+    texts = eval_slice["instruction"]
+    true_labels = eval_slice["intent"]
+    
+    print("Evaluating batch accuracy...")
+    predictions = classifier(texts, batch_size=32)
+
+    correct = 0
+    for pred, true_label in zip(predictions, true_labels):
+        if pred["label"] == true_label:
+            correct += 1
+
+    accuracy = correct / len(texts)
+    print(f"Live Evaluation Complete. Calculated Accuracy: {accuracy:.4f}")
+
+    DRIFT_THRESHOLD = 0.90
+
+    if accuracy < DRIFT_THRESHOLD:
+        print(f"ALERT: performance drop detected! Current: {accuracy:.2f}")
     else:
-        print("Model health is stable.")
+        print("Model performance metrics are stable")
+
+    return accuracy
 
 @flow(name="Hermes Core Operations Pipeline")
 def hermes_orchestration_flow():

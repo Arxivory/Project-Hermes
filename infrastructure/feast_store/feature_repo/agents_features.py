@@ -7,6 +7,10 @@ from feast import (
 )
 from feast.types import Float32
 from feast.value_type import ValueType
+from pathlib import Path
+
+REPO_PATH = Path(__file__).resolve().parent
+DATA_PATH = REPO_PATH / "data" / "agent_historical_telemetry.parquet"
 
 agent = Entity(
     name="agent_id",
@@ -15,7 +19,7 @@ agent = Entity(
 )
 
 agent_historical_source = FileSource(
-    path=f"data/agent_historical_telemetry.parquet",
+    path=str(DATA_PATH),
     timestamp_field="event_timestamp",
     created_timestamp_column="created_timestamp"
 )

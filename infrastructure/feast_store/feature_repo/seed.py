@@ -3,6 +3,10 @@
 import os
 import pandas as pd
 from datetime import datetime, timedelta
+from pathlib import Path
+
+REPO_PATH = Path(__file__).resolve().parent
+DATA_DIR = REPO_PATH / "data"
 
 def build_local_feature_lake():
     print("Creating baseline operational feature data frames...")
@@ -22,7 +26,7 @@ def build_local_feature_lake():
     }
 
     df = pd.DataFrame(base_data)
-    parquet_path = "data/agent_historical_telemetry.parquet"
+    parquet_path = DATA_DIR / "agent_historical_telemetry.parquet"
     df.to_parquet(parquet_path)
     print(f"Mock profile records saved to offline store path: {parquet_path}")
 

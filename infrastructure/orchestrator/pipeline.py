@@ -95,8 +95,8 @@ def evaluate_model_performance():
         device=0 if torch.cuda.is_available() else -1
     )
 
-    texts = eval_slice["instruction"]
-    true_labels = eval_slice["intent"]
+    texts = list(eval_slice["instruction"])
+    true_labels = list(eval_slice["intent"])
     
     print("Evaluating batch accuracy...")
     predictions = classifier(texts, batch_size=32)

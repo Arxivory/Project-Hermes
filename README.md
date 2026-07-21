@@ -55,6 +55,7 @@ Project Hermes is currently under active development. The codebase already conta
 - simulated traffic generation
 - feature-store-backed agent profiling
 - supporting MLOps-related artifacts and model resources
+- Core operations pipeline
 
 This project is still evolving as a research and engineering prototype, so the implementation is intentionally being shaped and refined over time.
 

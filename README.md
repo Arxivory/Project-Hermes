@@ -63,6 +63,7 @@ This project is still evolving as a research and engineering prototype, so the i
 
 Future work will focus on strengthening the system's realism and operational readiness, including:
 
+- more agent data
 - more robust data pipelines
 - richer agent performance modeling
 - improved routing quality under real-world conditions
